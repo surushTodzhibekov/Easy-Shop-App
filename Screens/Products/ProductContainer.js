@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
+import ProductList from "./ProductList";
 
 let data = require("../../assets/data/products.json");
 
@@ -18,10 +19,10 @@ function ProductContainer(props) {
       <Text>Product items</Text>
       <View style={{ marginTop: 100 }}>
         <FlatList
-          horizontal
           data={products}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item }) => <Text>{item.brand}</Text>}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ProductList key={item.id} item={item} />}
         />
       </View>
     </View>
