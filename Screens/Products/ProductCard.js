@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     position: "absolute",
     top: -45,
+    alignItems: "center",
   },
   card: {
     backgroundColor: "transparent",
