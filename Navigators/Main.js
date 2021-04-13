@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -7,10 +7,13 @@ import HomeNavigator from "./HomeNavigator";
 import CartNavigator from "./CartNavigator";
 import CartIcon from "../Shared/CartIcon";
 import UserNavigoter from "./UserNavigator";
+import AdminNavigator from "./AdminNavigator";
+import AuthGlobal from "../Context/store/AuthGlobal";
 
 const Tab = createBottomTabNavigator();
 
 function Main(props) {
+  const context = useContext(AuthGlobal);
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -51,15 +54,18 @@ function Main(props) {
         }}
       />
       {/** Admin */}
-      <Tab.Screen
-        name="Admin"
-        component={HomeNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="cog" color={color} size={30} />
-          ),
-        }}
-      />
+      {context.stateUser.user.isAdmin == true ? (
+        <Tab.Screen
+          name="Admin"
+          component={AdminNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Icon name="cog" color={color} size={30} />
+            ),
+          }}
+        />
+      ) : null}
+
       {/** User */}
       <Tab.Screen
         name="User"

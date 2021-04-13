@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ScrollView, Button } from "react-native";
 import { Container } from "native-base";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -7,6 +7,7 @@ import axios from "axios";
 
 import baseURL from "../../assets/common/baseUrl";
 import AuthGlobal from "../../Context/store/AuthGlobal";
+import { logoutUser } from "../../Context/actions/Auth.actions";
 
 function UserProfile(props) {
   const context = useContext(AuthGlobal);
@@ -40,8 +41,8 @@ function UserProfile(props) {
   }, [context.stateUser.isAuthenticated]);
 
   return (
-    <Container>
-      <ScrollView>
+    <Container style={styles.container}>
+      <ScrollView contentContainerStyle={styles.subContainer}>
         <Text style={{ fontSize: 30, color: "#000" }}>
           {userProfile ? userProfile.name : ""}
         </Text>
@@ -53,13 +54,29 @@ function UserProfile(props) {
             Phone: {userProfile ? userProfile.phone : ""}
           </Text>
         </View>
+        <View style={{ marginTop: 80 }}>
+          <Button
+            title="Sign Out"
+            onPress={() => [
+              AsyncStorage.removeItem("jwt"),
+              logoutUser(context.dispatch),
+            ]}
+          />
+        </View>
       </ScrollView>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  subContainer: {
+    alignItems: "center",
+    marginTop: 60,
+  },
 });
 
 export default UserProfile;
